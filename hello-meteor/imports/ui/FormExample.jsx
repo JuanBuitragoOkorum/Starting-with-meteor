@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ContactsSave } from "../api/ContactsCollection"
+import { Meteor } from "meteor/meteor"
 
 export const Form = () => {
     const [name, setName] = useState("")
@@ -7,10 +8,17 @@ export const Form = () => {
     const [page, setPage] = useState("")
     const saveContact = () => {
         console.log({ name, email, page })
-        ContactsSave.insert({ name, email, page })
-        setName("")
-        setEmail("")
-        setPage("")
+        Meteor.call('contacts.insert', { name, email, page }, (error) => {
+            if (error) {
+                alert(error)
+            }
+            else {
+                setName("")
+                setEmail("")
+                setPage("")
+            }
+        })
+
     }
 
     return (
@@ -33,7 +41,7 @@ export const Form = () => {
                 </label>
                 <input type="text" value={page} onChange={(e) => setPage(e.target.value)} />
             </div>
-            <button type="button" onClick={saveContact}>save contact</button>
+            <button type="button" onClick={saveContact}>save </button>
 
         </form>
     )
