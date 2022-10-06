@@ -60,3 +60,17 @@ table {
   margin: 30px auto;
   font-family: Arial;
 }
+
+.messageError {
+  display: flex;
+  color: red;
+  justify-content: center;
+  align-items: center;
+}
+
+.messageSucces {
+  display: flex;
+  color: green;
+  justify-content: center;
+  align-items: center;
+}
