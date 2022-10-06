@@ -10,23 +10,35 @@ export const Form = () => {
     const [error, setError] = useState("")
     const [succes, setSucces] = useState("")
 
+    const showError = ({ message }) => {
+        setError(message)
+        setTimeout(() => setError(""), 1000)
+    }
+
+    const showSucces = ({ message }) => {
+        setSucces(message)
+        setTimeout(() => setSucces(""), 1000)
+    }
+
     const saveContact = () => {
-        console.log({ name, email, page })
+
         Meteor.call('contacts.insert', { name, email, page }, (errorResponse) => {
             if (errorResponse) {
-                //alert(errorResponse.error)
-                setError(errorResponse.error)
+                showError({ message: errorResponse.error })//alert(errorResponse.error)
+
             }
             else {
                 setName("")
                 setEmail("")
                 setPage("")
-                setSucces("contact saved")
+                showSucces({ message: "Contact save" })
 
             }
         })
 
     }
+
+
 
     return (
         <>
