@@ -12,7 +12,7 @@ Meteor.methods({
         if (!name) {
             throw new Meteor.Error("Name is required")
         }
-        ContactsSave.insert({ name, email, page })
+        return ContactsSave.insert({ name, email, page, createdAt: new Date() })
     }
 })
 

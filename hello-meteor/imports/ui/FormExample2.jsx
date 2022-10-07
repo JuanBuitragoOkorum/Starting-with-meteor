@@ -8,6 +8,7 @@ import { Meteor } from "meteor/meteor"
 export const ContactList = () => {
     const contact = useTracker(() => {
         return ContactsSave.find({}).fetch()
+
     })
 
     const removeContact = (_id) => {
