@@ -7,12 +7,12 @@ import { Meteor } from "meteor/meteor"
 
 export const ContactList = () => {
     const contact = useTracker(() => {
-        return ContactsSave.find({}).fetch()
+        return ContactsSave.find({}, { sort: { createdAt: -1 } }).fetch()
 
     })
 
-    const removeContact = (_id) => {
-
+    const removeContact = (event, _id) => {
+        event.preventDefault()
         Meteor.call('contacts.remove', { contactId: _id });
     }
 
@@ -20,7 +20,7 @@ export const ContactList = () => {
         <>
             <h3>Example List</h3>
 
-            <table>{contact.map(contact => (<tr key={contact.email}><td>{contact.name}</td><td>{contact.email}</td><td>{contact.page}</td><td><button className="remove" onClick={() => removeContact(contact._id)}> remove</button></td></tr>))}</table>
+            <table>{contact.map(contact => (<tr key={contact.email}><td>{contact.name}</td><td>{contact.email}</td><td>{contact.page}</td><td><button className="remove" onClick={(event) => removeContact(event, contact._id)}> remove</button></td></tr>))}</table>
 
         </>
     )
