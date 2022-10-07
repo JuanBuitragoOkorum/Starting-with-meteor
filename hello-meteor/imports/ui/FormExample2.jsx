@@ -1,19 +1,24 @@
 import React from "react";
 import { ContactsSave } from "../api/ContactsCollection"
-import { useTracker } from "meteor/react-meteor-data"
+import { useSubscribe, useFind } from "meteor/react-meteor-data"
 import { Meteor } from "meteor/meteor"
 
 
 
 export const ContactList = () => {
-    const contact = useTracker(() => {
-        return ContactsSave.find({}, { sort: { createdAt: -1 } }).fetch()
-
+    const isLoading = useSubscribe('allContacts');
+    const contact = useFind(() => {
+        return ContactsSave.find({}, { sort: { createdAt: -1 } })
     })
+
 
     const removeContact = (event, _id) => {
         event.preventDefault()
         Meteor.call('contacts.remove', { contactId: _id });
+    }
+
+    if (isLoading()) {
+        return <p>Loading ...</p>
     }
 
     return (
